@@ -5,6 +5,9 @@ Scripts to automate Notion and improve productivity
 ### What it does
 Creates a new 'Day Plan' in a specified Notion page everyday.
 ![Day Plan format](/images/day-plan.png)
+### Features
+1. New background image everyday (using Unsplash API)
+2. New Quote of the Day everyday (using ZenQuotes API)
 ### How to use it
 #### Notion set-up
 1. Create a [Notion integration](https://www.notion.so/my-integrations)
