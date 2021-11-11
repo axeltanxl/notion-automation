@@ -8,6 +8,7 @@ Creates a new 'Day Plan' in a specified Notion page everyday.
 ### Features
 1. New background image everyday (using Unsplash API)
 2. New Quote of the Day everyday (using ZenQuotes API)
+3. Deployment to AWS
 ### How to use it
 #### Notion set-up
 1. Create a [Notion integration](https://www.notion.so/my-integrations)
@@ -24,4 +25,6 @@ Creates a new 'Day Plan' in a specified Notion page everyday.
     - Scroll down to the bottom of `create_page.py`
     - Replace `TODO` with your page ID
 #### Deployment
-- In progress
+The script will be deployed onto an AWS EC2 instance, which will be started and stopped automatically by a Lambda function. The EC2 instance will be started and stopped at a specific time configured in Amazon EventBridge Events, which will then trigger the Lambda function. Once the EC2 instance has started, it will run the script as a cron job and get terminated a few minutes later, once the cron job has been completed.
+##### Create Lambda function
+1. In progress
