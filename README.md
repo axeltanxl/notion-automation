@@ -30,7 +30,6 @@ The script will be deployed onto an AWS EC2 instance, which will be started and 
 1. In the AWS Management Console, go to IAM -> Policies -> Create Policy
 2. Click on "JSON" to us ethe JSON editor to create the policy
 3. Copy and paste the following code into the editor:
-'''
     {
         "Version": "2012-10-17",
         "Statement": [
@@ -53,7 +52,6 @@ The script will be deployed onto an AWS EC2 instance, which will be started and 
         }
         ]
     }
-'''
 4. Create the policy
 5. In IAM, go to Roles -> Create role
 6. Choose "AWS service" as the trusted identity and "Lambda" as the use case
