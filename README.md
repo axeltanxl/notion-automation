@@ -26,8 +26,14 @@ Creates a new 'Day Plan' in a specified Notion page everyday.
     - Replace `TODO` with your page ID
 #### Deployment
 The script will be deployed onto an AWS EC2 instance, which will be started and stopped automatically by a Lambda function. The EC2 instance will be started and stopped at a specific time configured in Amazon EventBridge Events, which will then trigger the Lambda function. Once the EC2 instance has started, it will run the script as a cron job and get terminated a few minutes later, once the cron job has been completed.
+##### Create an EC2 instance
+1. In the AWS management console, go to the EC2 service -> "Launch instances"
+    - Select and configure the type of AMI, instance type, instance details (subnet, AZ), storage and tags. Just use the free-tier eligible defaults.
+    - For the security group, make sure SSH is allowed from anywhere (source: 0.0.0.0/0). The protocol and port should be “TCP” and “22” respectively. Once done, select “Review and Launch” and then “Launch”.
+        - Create a key pair if you don't have one
+
 ##### Create an IAM policy and role to allow Lambda to start & stop EC2 instances
-1. In the AWS Management Console, go to IAM -> Policies -> Create Policy
+1. Go to IAM -> Policies -> Create Policy
 2. Click on "JSON" to us ethe JSON editor to create the policy
 3. Copy and paste the following code into the editor:
 ```
@@ -61,4 +67,33 @@ The script will be deployed onto an AWS EC2 instance, which will be started and 
 8. Click on "Next" to complete the process.
 
 #### Create Lambda functions to stop and start EC2 instances
+1. Go to the Lambda service in AWS console
+2. Click on "Create function"
+    - Choose the option to "Author from scratch"
+    - Give your function a name (I suggest "StopEC2Instance" for easy identification later)
+    - Under "Runtime", choose Python 3.9
+    - Click on the "Change default execution role" under "Permissions", and choose "Use an existing role"
+    - Select the name of the IAM role you just created
+    - Leave the rest of the options as default, and click on "Create function"
+3. Go to the page that shows all your Lambda functions and select the function you just created
+4. Click on the "Code" tab to edit the Lambda function
+5. Copy and paste the following code into the code editor:
+```
+# This code is used to stop your EC2 instance
+# Replace your_region and instance_id with your EC2 instance region and EC2 instance ID respectively
+import boto3
+region = 'your_region'
+instances = ['instance_id']
+ec2 = boto3.client('ec2', region_name=region)
+
+def lambda_handler(event, context):
+    ec2.stop_instances(InstanceIds=instances)
+    print('stopped your instances: ' + str(instances))
+```
+
+6. Click on "Deploy"
+7. Next, click on the "Configuration" tab -> "General settings" -> "Edit" and set the timeout to 10 seconds
+8. Repeat steps 1 to 7 to create another Lambda function that starts the EC2 instance
+
+##### Create Amazon EventBridge Rules to trigger Lambda functions on a schedule
 In progress
