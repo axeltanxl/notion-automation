@@ -66,7 +66,7 @@ The script will be deployed onto an AWS EC2 instance, which will be started and 
 7. Next, attach the policy you just created to the role
 8. Click on "Next" to complete the process.
 
-#### Create Lambda functions to stop and start EC2 instances
+##### Create Lambda functions to stop and start EC2 instances
 1. Go to the Lambda service in AWS console
 2. Click on "Create function"
     - Choose the option to "Author from scratch"
@@ -90,7 +90,6 @@ def lambda_handler(event, context):
     ec2.stop_instances(InstanceIds=instances)
     print('stopped your instances: ' + str(instances))
 ```
-
 6. Click on "Deploy"
 7. Next, click on the "Configuration" tab -> "General settings" -> "Edit" and set the timeout to 10 seconds
 8. Repeat steps 1 to 7 to create another Lambda function that starts the EC2 instance
