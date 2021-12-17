@@ -95,4 +95,24 @@ def lambda_handler(event, context):
 8. Repeat steps 1 to 7 to create another Lambda function that starts the EC2 instance
 
 ##### Create Amazon EventBridge Rules to trigger Lambda functions on a schedule
-In progress
+1. Go to the Amazon EventBridge service in AWS
+2. Select "Create rule"
+    - Name and description:
+        - Give the rule a name (e.g: StopEC2Instance)
+        - Give the rule a description (e.g: Stops EC2 instance at 7:00am everyday)
+    - Define pattern:
+        - Select "Schedule" -> "cron expression"
+        - Key in the cron expression for the required time to stop the EC2 instance everyday
+            - Format: time_in_minutes time_in_hours * * ? *
+            - The time should be entered in 24-hour format
+            - The default time zone is GMT+0. Make sure to convert the time in your local time zone to GMT+0 before entering the values in the cron expression
+            - E.g: 30 17 * * ? * (Event will be triggered at 5:30pm GMT+0 everyday)
+    - Select event bus:
+        - Choose "AWS default event bus"
+    - Select targets:
+        - Select "Lambda functionb" from the dropdown menu
+        - Select the Lambda function you created to stop the EC2 instance
+        - Leave the rest as default
+    - Click "Create"
+3. Repeat step 2 to create another rule to trigger the Lambda function to start the EC2 instance
+
