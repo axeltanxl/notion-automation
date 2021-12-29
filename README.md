@@ -116,3 +116,7 @@ def lambda_handler(event, context):
     - Click "Create"
 3. Repeat step 2 to create another rule to trigger the Lambda function to start the EC2 instance
 
+##### Transfer files to EC2 instance
+1. Go to EC2 service in AWS console
+2. If your EC2 instance is stopped, start it.
+3. Following [this](https://axeltan.com/how-to-transfer-files-from-your-computer-to-an-ec2-instance) guide, transfer the `create_page.py` & `.env` files to the EC2 instance.
