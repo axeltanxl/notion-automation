@@ -120,3 +120,7 @@ def lambda_handler(event, context):
 1. Go to EC2 service in AWS console
 2. If your EC2 instance is stopped, start it.
 3. Following [this](https://axeltan.com/how-to-transfer-files-from-your-computer-to-an-ec2-instance) guide, transfer the `create_page.py` & `.env` files to the EC2 instance.
+4. Install the required Python3 modules
+    - requests: `python3 -m pip install requests`
+    - dotenv: `python3 -m pip install dotenv`
+5. Create a cron job in the EC2 instance to run the Python script
