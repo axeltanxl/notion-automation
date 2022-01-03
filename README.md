@@ -124,3 +124,10 @@ def lambda_handler(event, context):
     - requests: `python3 -m pip install requests`
     - dotenv: `python3 -m pip install dotenv`
 5. Create a cron job in the EC2 instance to run the Python script
+    - Make sure the cron job runs in between the time when your EC2 instance starts and ends
+    - You can reuse the cron expression used to create the EventBridge Rules with slight modifications:
+        - The cron expression used in EC2 instances does not have the year specified (last field in cron expression for EventBridge)
+        - Cron expressions in EC2 do not use ?. Use * instead.
+    - Full crontab expression to execute Python script: *cron_expression* python3 /home/ec2-user/create_page.py
+    - E.g: 5 8 * * * python3 /home/ec2-user/create_page.py
+6. And you are done! You have successfully automated the process of creating a Notion day play.
