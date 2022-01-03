@@ -130,4 +130,4 @@ def lambda_handler(event, context):
         - Cron expressions in EC2 do not use ?. Use * instead.
     - Full crontab expression to execute Python script: *cron_expression* python3 /home/ec2-user/create_page.py
     - E.g: 5 8 * * * python3 /home/ec2-user/create_page.py
-6. And you are done! You have successfully automated the process of creating a Notion day play.
+6. And you are done! You have successfully automated the process of creating a Notion day plan.
