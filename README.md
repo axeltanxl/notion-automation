@@ -1,7 +1,7 @@
-# Notion Automation
-Scripts to automate Notion and improve productivity
+# Notion Day Plan Automation
+Automate the process of creating day plans in Notion everyday.
 
-## 1. Day Plan
+## Day Plan
 ### What it does
 Creates a new 'Day Plan' in a specified Notion page everyday.
 ![Day Plan format](/images/day-plan.png)
