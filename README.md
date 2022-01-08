@@ -120,14 +120,21 @@ def lambda_handler(event, context):
 1. Go to EC2 service in AWS console
 2. If your EC2 instance is stopped, start it.
 3. Following [this](https://axeltan.com/how-to-transfer-files-from-your-computer-to-an-ec2-instance) guide, transfer the `create_page.py` & `.env` files to the EC2 instance.
-4. Install the required Python3 modules
+4. Change the timezone of the EC2 instance to your local timezone
+    - Find your local timezone from all aviable timezones
+        - Command: `timedatectl list-timezones`
+        - To jump to the next page, click "SPACE". Once you have found your local timezone, copy the text and exit out of the screen by typing "q".
+    - Change the timezone of the EC2 instance to your local timezone
+        - Command: `sudo timedatectl <your_local_timezone>`
+        - Replace your_local_timezone with the text you copied
+5. Install the required Python3 modules
     - requests: `python3 -m pip install requests`
     - dotenv: `python3 -m pip install dotenv`
-5. Create a cron job in the EC2 instance to run the Python script
+6. Create a cron job in the EC2 instance to run the Python script
     - Make sure the cron job runs in between the time when your EC2 instance starts and ends
     - You can reuse the cron expression used to create the EventBridge Rules with slight modifications:
         - The cron expression used in EC2 instances does not have the year specified (last field in cron expression for EventBridge)
         - Cron expressions in EC2 do not use ?. Use * instead.
     - Full crontab expression to execute Python script: *cron_expression* python3 /home/ec2-user/create_page.py
     - E.g: 5 8 * * * python3 /home/ec2-user/create_page.py
-6. And you are done! You have successfully automated the process of creating a Notion day plan.
+7. And you are done! You have successfully automated the process of creating a Notion day plan.
