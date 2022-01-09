@@ -105,7 +105,7 @@ def lambda_handler(event, context):
         - Key in the cron expression for the required time to stop the EC2 instance everyday
             - Format: time_in_minutes time_in_hours * * ? *
             - The time should be entered in 24-hour format
-            - The default time zone is GMT+0. Make sure to convert the time in your local time zone to GMT+0 before entering the values in the cron expression
+            - The default time zone is GMT+0. Convert the time in your local time zone to GMT+0 before entering the values in the cron expression.
             - E.g: 30 17 * * ? * (Event will be triggered at 5:30pm GMT+0 everyday)
     - Select event bus:
         - Choose "AWS default event bus"
@@ -132,7 +132,8 @@ def lambda_handler(event, context):
     - dotenv: `python3 -m pip install dotenv`
 6. Create a cron job in the EC2 instance to run the Python script
     - Make sure the cron job runs in between the time when your EC2 instance starts and ends
-    - You can reuse the cron expression used to create the EventBridge Rules with slight modifications:
+    - This is similar to the cron expression used to create the EventBridge Rules with minor differences:
+        - Use your local timezone for the values in the expression instead of the converted time.
         - The cron expression used in EC2 instances does not have the year specified (last field in cron expression for EventBridge)
         - Cron expressions in EC2 do not use ?. Use * instead.
     - Full crontab expression to execute Python script: *cron_expression* python3 /home/ec2-user/create_page.py
