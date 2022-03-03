@@ -25,16 +25,16 @@ Creates a new 'Day Plan' in a specified Notion page everyday.
     - Scroll down to the bottom of `create_page.py`
     - Replace `TODO` with your page ID
 #### Deployment
-The script will be deployed onto an AWS EC2 instance, which will be started and stopped automatically by a Lambda function. The EC2 instance will be started and stopped at a specific time configured in Amazon EventBridge Events, which will then trigger the Lambda function. Once the EC2 instance has started, it will run the script as a cron job and get terminated a few minutes later, once the cron job has been completed.
+The script will be deployed onto an AWS EC2 instance, which will be started and stopped automatically by a Lambda function. The EC2 instance will be started and stopped at a specific time configured in Amazon EventBridge Events, which will trigger the Lambda function. Once the EC2 instance has started, it will run the script as a cron job and terminate a few minutes later, once the cron job has been completed.
 ##### Create an EC2 instance
-1. In the AWS management console, go to the EC2 service -> "Launch instances"
+1. In the AWS management console, go to EC2 -> "Launch instances"
     - Select and configure the type of AMI, instance type, instance details (subnet, AZ), storage and tags. Just use the free-tier eligible defaults.
     - For the security group, make sure SSH is allowed from anywhere (source: 0.0.0.0/0). The protocol and port should be “TCP” and “22” respectively. Once done, select “Review and Launch” and then “Launch”.
         - Create a key pair if you don't have one
 
 ##### Create an IAM policy and role to allow Lambda to start & stop EC2 instances
 1. Go to IAM -> Policies -> Create Policy
-2. Click on "JSON" to us ethe JSON editor to create the policy
+2. Click on "JSON" to use the JSON editor to create the policy
 3. Copy and paste the following code into the editor:
 ```
 {
@@ -69,7 +69,7 @@ The script will be deployed onto an AWS EC2 instance, which will be started and 
 ##### Create Lambda functions to stop and start EC2 instances
 1. Go to the Lambda service in AWS console
 2. Click on "Create function"
-    - Choose the option to "Author from scratch"
+    - Choose the option "Author from scratch"
     - Give your function a name (I suggest "StopEC2Instance" for easy identification later)
     - Under "Runtime", choose Python 3.9
     - Click on the "Change default execution role" under "Permissions", and choose "Use an existing role"
@@ -110,13 +110,13 @@ def lambda_handler(event, context):
     - Select event bus:
         - Choose "AWS default event bus"
     - Select targets:
-        - Select "Lambda functionb" from the dropdown menu
+        - Select "Lambda function" from the dropdown menu
         - Select the Lambda function you created to stop the EC2 instance
         - Leave the rest as default
     - Click "Create"
 3. Repeat step 2 to create another rule to trigger the Lambda function to start the EC2 instance
 
-##### Transfer files to EC2 instance
+##### Transfer files to EC2 instance and create cron job
 1. Go to EC2 service in AWS console
 2. If your EC2 instance is stopped, start it.
 3. Following [this](https://axeltan.com/how-to-transfer-files-from-your-computer-to-an-ec2-instance) guide, transfer the `create_page.py` & `.env` files to the EC2 instance.
@@ -131,7 +131,7 @@ def lambda_handler(event, context):
     - requests: `python3 -m pip install requests`
     - dotenv: `python3 -m pip install dotenv`
 6. Create a cron job in the EC2 instance to run the Python script
-    - Make sure the cron job runs in between the time when your EC2 instance starts and ends
+    - Make sure the cron job runs in-between the time when your EC2 instance starts and ends
     - This is similar to the cron expression used to create the EventBridge Rules with minor differences:
         - Use your local timezone for the values in the expression instead of the converted time.
         - The cron expression used in EC2 instances does not have the year specified (last field in cron expression for EventBridge)
